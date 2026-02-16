@@ -9,13 +9,13 @@ export default function MilestoneTimeline({ milestones }: MilestoneTimelineProps
   const getStatusIcon = (status: Milestone['status']) => {
     switch (status) {
       case 'Completed':
-        return <CheckCircle className="w-5 h-5 text-green-600" />;
+        return <CheckCircle aria-hidden="true" className="w-5 h-5 text-green-600" />;
       case 'In Progress':
-        return <Clock className="w-5 h-5 text-blue-600" />;
+        return <Clock aria-hidden="true" className="w-5 h-5 text-blue-600" />;
       case 'Delayed':
-        return <AlertCircle className="w-5 h-5 text-red-600" />;
+        return <AlertCircle aria-hidden="true" className="w-5 h-5 text-red-600" />;
       default:
-        return <Circle className="w-5 h-5 text-gray-400" />;
+        return <Circle aria-hidden="true" className="w-5 h-5 text-gray-400" />;
     }
   };
 

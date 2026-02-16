@@ -53,14 +53,14 @@ export default function StudyCard({ study }: StudyCardProps) {
 
         <div className="grid grid-cols-2 gap-4 pt-3 border-t border-gray-200">
           <div className="flex items-center text-sm">
-            <MapPin className="w-4 h-4 text-gray-500 mr-2" />
+            <MapPin aria-hidden="true" className="w-4 h-4 text-gray-500 mr-2" />
             <div>
               <p className="text-xs text-gray-500">Sites</p>
               <p className="font-medium text-gray-900">{study.sites}</p>
             </div>
           </div>
           <div className="flex items-center text-sm">
-            <User className="w-4 h-4 text-gray-500 mr-2" />
+            <User aria-hidden="true" className="w-4 h-4 text-gray-500 mr-2" />
             <div>
               <p className="text-xs text-gray-500">PI</p>
               <p className="font-medium text-gray-900 truncate">{study.principalInvestigator}</p>
@@ -70,14 +70,14 @@ export default function StudyCard({ study }: StudyCardProps) {
 
         <div className="grid grid-cols-2 gap-4 pt-3 border-t border-gray-200">
           <div className="flex items-start text-sm">
-            <Calendar className="w-4 h-4 text-gray-500 mr-2 mt-0.5" />
+            <Calendar aria-hidden="true" className="w-4 h-4 text-gray-500 mr-2 mt-0.5" />
             <div>
               <p className="text-xs text-gray-500">Start Date</p>
               <p className="font-medium text-gray-900">{study.startDate}</p>
             </div>
           </div>
           <div className="flex items-start text-sm">
-            <Calendar className="w-4 h-4 text-gray-500 mr-2 mt-0.5" />
+            <Calendar aria-hidden="true" className="w-4 h-4 text-gray-500 mr-2 mt-0.5" />
             <div>
               <p className="text-xs text-gray-500">Expected Completion</p>
               <p className="font-medium text-gray-900">{study.expectedCompletionDate}</p>

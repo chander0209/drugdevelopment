@@ -64,8 +64,9 @@ export default function HomePage() {
       {/* Search Bar */}
       <div className="mb-6">
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+          <Search aria-hidden="true" className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
           <input
+            aria-label="Search programs"
             type="text"
             placeholder="Search programs by name, code, indication, or therapeutic area..."
             value={searchQuery}
@@ -91,7 +92,7 @@ export default function HomePage() {
         <div className="lg:col-span-3">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center text-sm text-gray-600">
-              <LayoutGrid className="w-4 h-4 mr-2" />
+              <LayoutGrid aria-hidden="true" className="w-4 h-4 mr-2" />
               <span>
                 Showing {filteredPrograms.length} of {mockPrograms.length} programs
               </span>

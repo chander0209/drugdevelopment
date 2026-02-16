@@ -23,7 +23,7 @@ export default function ProgramCard({ program }: ProgramCardProps) {
   };
 
   return (
-    <Link href={`/programs/${program.id}`}>
+    <Link href={`/programs/${program.id}`} aria-label={`Open program ${program.name}`}>
       <div className="card hover:shadow-lg transition-shadow cursor-pointer h-full">
         <div className="flex justify-between items-start mb-4">
           <div className="flex-1">
@@ -44,14 +44,14 @@ export default function ProgramCard({ program }: ProgramCardProps) {
 
         <div className="grid grid-cols-2 gap-4 mb-4">
           <div className="flex items-center text-sm">
-            <Users className="w-4 h-4 text-gray-500 mr-2" />
+            <Users aria-hidden="true" className="w-4 h-4 text-gray-500 mr-2" />
             <div>
               <p className="text-xs text-gray-500">Enrollment</p>
               <p className="font-medium">{program.keyMetrics.totalEnrollment}</p>
             </div>
           </div>
           <div className="flex items-center text-sm">
-            <Target className="w-4 h-4 text-gray-500 mr-2" />
+            <Target aria-hidden="true" className="w-4 h-4 text-gray-500 mr-2" />
             <div>
               <p className="text-xs text-gray-500">Active Studies</p>
               <p className="font-medium">{program.keyMetrics.activeStudies}</p>
@@ -62,11 +62,11 @@ export default function ProgramCard({ program }: ProgramCardProps) {
         <div className="pt-4 border-t border-gray-200">
           <div className="flex items-center justify-between text-sm">
             <div className="flex items-center text-gray-600">
-              <Calendar className="w-4 h-4 mr-1" />
+              <Calendar aria-hidden="true" className="w-4 h-4 mr-1" />
               <span className="text-xs">Updated {program.lastUpdated}</span>
             </div>
             <div className="flex items-center">
-              <TrendingUp className="w-4 h-4 text-green-600 mr-1" />
+              <TrendingUp aria-hidden="true" className="w-4 h-4 text-green-600 mr-1" />
               <span className="text-xs font-medium text-green-600">{enrollmentPercentage}%</span>
             </div>
           </div>
