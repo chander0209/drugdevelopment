@@ -187,26 +187,7 @@ Study            Milestone   │
          (for Study)
 ```
 
-## Performance: Before vs After
-
-### Before (Mock Data)
-```
-User Request → Load mockData.ts (all programs) → Filter in browser
-                       ↓
-              [PRG001, PRG002, ..., PRG050]  (all 50 programs)
-                       ↓
-              Filter phase="Phase I"
-                       ↓
-              [PRG003, PRG015, PRG022, ...]  (matching programs)
-                       ↓
-              Render all matching programs
-
-Time: O(n) where n = total programs
-Memory: All programs in browser RAM
-Scalability: Poor (>100 programs = slow)
-```
-
-### After (Database)
+### Database
 ```
 User Request → API with filters → Database query with indexes
                        ↓
@@ -220,9 +201,7 @@ User Request → API with filters → Database query with indexes
                        ↓
               Render 20 programs
 
-Time: O(log n) with indexes + O(1) for LIMIT
 Memory: Only 20 programs in browser RAM
-Scalability: Excellent (works with 100,000+ programs)
 ```
 
 ## Index Performance Example
