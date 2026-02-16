@@ -43,9 +43,8 @@ export default function FilterPanel({
           <button
             onClick={onClearFilters}
             className="text-sm text-primary-600 hover:text-primary-700 flex items-center"
-            aria-label="Clear all filters"
           >
-            <X aria-hidden="true" className="w-4 h-4 mr-1" />
+            <X className="w-4 h-4 mr-1" />
             Clear All
           </button>
         )}

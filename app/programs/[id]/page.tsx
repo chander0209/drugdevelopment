@@ -92,7 +92,7 @@ export default function ProgramDetailPage() {
           onClick={() => router.push('/')}
           className="flex items-center text-sm text-gray-600 hover:text-gray-900 mb-4"
         >
-          <ArrowLeft aria-hidden="true" className="w-4 h-4 mr-1" />
+          <ArrowLeft className="w-4 h-4 mr-1" />
           Back to Programs
         </button>
 
@@ -110,18 +110,18 @@ export default function ProgramDetailPage() {
           {!isEditing ? (
             currentUser && (currentUser.role === 'admin' || currentUser.role === 'edit') && (
               <button onClick={handleEdit} className="btn-primary flex items-center">
-                <Edit aria-hidden="true" className="w-4 h-4 mr-2" />
+                <Edit className="w-4 h-4 mr-2" />
                 Edit Program
               </button>
             )
           ) : (
             <div className="flex gap-2">
               <button onClick={handleSave} className="btn-primary flex items-center">
-                <Save aria-hidden="true" className="w-4 h-4 mr-2" />
+                <Save className="w-4 h-4 mr-2" />
                 Save Changes
               </button>
               <button onClick={handleCancel} className="btn-secondary flex items-center">
-                <X aria-hidden="true" className="w-4 h-4 mr-2" />
+                <X className="w-4 h-4 mr-2" />
                 Cancel
               </button>
             </div>
@@ -131,15 +131,11 @@ export default function ProgramDetailPage() {
 
       {/* Tabs */}
       <div className="border-b border-gray-200 mb-6">
-        <nav className="flex space-x-8" role="tablist" aria-label="Program Sections">
+        <nav className="flex space-x-8">
           <button
-                <div>
-                  <p className="text-sm text-gray-500">Total Enrollment</p>
-                  <p className="text-2xl font-bold text-gray-900 mt-1">
-                    {currentProgram.keyMetrics.totalEnrollment}
-                  </p>
-                </div>
-                <Activity aria-hidden="true" className="w-8 h-8 text-primary-600" />
+            onClick={() => setActiveTab('overview')}
+            className={`py-4 px-1 border-b-2 font-medium text-sm ${
+              activeTab === 'overview'
                 ? 'border-primary-600 text-primary-600'
                 : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
             }`}
@@ -147,11 +143,7 @@ export default function ProgramDetailPage() {
             Overview
           </button>
           <button
-            id="tab-studies"
-            role="tab"
-            aria-selected={activeTab === 'studies'}
-            aria-controls="panel-studies"
-                <Beaker aria-hidden="true" className="w-8 h-8 text-green-600" />
+            onClick={() => setActiveTab('studies')}
             className={`py-4 px-1 border-b-2 font-medium text-sm ${
               activeTab === 'studies'
                 ? 'border-primary-600 text-primary-600'
@@ -161,10 +153,6 @@ export default function ProgramDetailPage() {
             Studies ({currentProgram.studies.length})
           </button>
           <button
-            id="tab-milestones"
-            role="tab"
-                <Target aria-hidden="true" className="w-8 h-8 text-blue-600" />
-            aria-controls="panel-milestones"
             onClick={() => setActiveTab('milestones')}
             className={`py-4 px-1 border-b-2 font-medium text-sm ${
               activeTab === 'milestones'
@@ -175,11 +163,11 @@ export default function ProgramDetailPage() {
             Milestones
           </button>
         </nav>
-                <FileText aria-hidden="true" className="w-8 h-8 text-purple-600" />
+      </div>
 
       {/* Overview Tab */}
       {activeTab === 'overview' && (
-        <div role="tabpanel" id="panel-overview" aria-labelledby="tab-overview" className="space-y-6">
+        <div className="space-y-6">
           {/* Key Metrics */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
             <div className="card">
@@ -298,7 +286,7 @@ export default function ProgramDetailPage() {
 
       {/* Studies Tab */}
       {activeTab === 'studies' && (
-        <div role="tabpanel" id="panel-studies" aria-labelledby="tab-studies" className="space-y-6">
+        <div className="space-y-6">
           <h2 className="text-xl font-semibold text-gray-900">Clinical Studies</h2>
           {currentProgram.studies.length === 0 ? (
             <div className="card text-center py-12">
@@ -316,7 +304,7 @@ export default function ProgramDetailPage() {
 
       {/* Milestones Tab */}
       {activeTab === 'milestones' && (
-        <div role="tabpanel" id="panel-milestones" aria-labelledby="tab-milestones" className="space-y-6">
+        <div className="space-y-6">
           <h2 className="text-xl font-semibold text-gray-900">Program Milestones</h2>
           {currentProgram.overallMilestones.length === 0 ? (
             <div className="card text-center py-12">

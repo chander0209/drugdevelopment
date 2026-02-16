@@ -1,7 +1,10 @@
 import type { Metadata } from 'next';
+import { Inter } from 'next/font/google';
 import './globals.css';
 import Header from '@/components/Header';
 import { UserProvider } from './UserContext';
+
+const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: 'Drug Development Portfolio Dashboard',
@@ -21,11 +24,10 @@ export default function RootLayout({
 
   return (
     <html lang="en">
-      <body>
-        <a href="#main-content" className="skip-link sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:bg-white focus:px-3 focus:py-2 focus:rounded">Skip to content</a>
+      <body className={inter.className}>
         <UserProvider currentUser={currentUser}>
           <Header currentUser={currentUser} />
-          <main id="main-content" role="main" className="min-h-screen bg-gray-50">
+          <main className="min-h-screen bg-gray-50">
             {children}
           </main>
         </UserProvider>
