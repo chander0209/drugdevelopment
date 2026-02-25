@@ -1,0 +1,72 @@
+// Prisma schema for drug portfolio database
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite" // Change to "postgresql" or "mysql" for production
+  url      = env("DATABASE_URL")
+}
+
+model Program {
+  id              String    @id
+  name            String
+  code            String    @unique
+  description     String
+  therapeuticArea String
+  phase           String
+  indication      String
+  mechanism       String
+  projectLead     String
+  startDate       String
+  lastUpdated     String
+  totalEnrollment Int       @default(0)
+  completedStudies Int      @default(0)
+  activeStudies   Int       @default(0)
+  completedMilestones Int   @default(0)
+  totalMilestones Int       @default(0)
+  studies         Study[]
+  milestones      Milestone[]
+  
+  @@index([therapeuticArea])
+  @@index([phase])
+  @@index([name])
+  @@index([code])
+}
+
+model Study {
+  id                      String    @id
+  name                    String
+  studyType               String
+  phase                   String
+  targetEnrollment        Int
+  currentEnrollment       Int
+  startDate               String
+  expectedCompletionDate  String
+  status                  String
+  sites                   Int
+  principalInvestigator   String
+  programId               String
+  program                 Program   @relation(fields: [programId], references: [id], onDelete: Cascade)
+  milestones              Milestone[]
+  
+  @@index([programId])
+  @@index([status])
+}
+
+model Milestone {
+  id          String   @id
+  name        String
+  description String
+  targetDate  String
+  actualDate  String?
+  status      String
+  programId   String?
+  studyId     String?
+  program     Program? @relation(fields: [programId], references: [id], onDelete: Cascade)
+  study       Study?   @relation(fields: [studyId], references: [id], onDelete: Cascade)
+  
+  @@index([programId])
+  @@index([studyId])
+  @@index([status])
+}

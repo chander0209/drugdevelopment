@@ -7,8 +7,10 @@ interface ProgramCardProps {
 }
 
 export default function ProgramCard({ program }: ProgramCardProps) {
-  const enrollmentPercentage = program.studies.length > 0
-    ? Math.round((program.keyMetrics.totalEnrollment / program.studies.reduce((sum, s) => sum + s.targetEnrollment, 0)) * 100)
+  const studies = program.studies ?? [];
+  const totalTargetEnrollment = studies.reduce((sum, s) => sum + (s.targetEnrollment ?? 0), 0);
+  const enrollmentPercentage = totalTargetEnrollment > 0
+    ? Math.round(((program.keyMetrics?.totalEnrollment ?? 0) / totalTargetEnrollment) * 100)
     : 0;
 
   const getPhaseColor = (phase: string) => {
@@ -47,14 +49,14 @@ export default function ProgramCard({ program }: ProgramCardProps) {
             <Users className="w-4 h-4 text-gray-500 mr-2" />
             <div>
               <p className="text-xs text-gray-500">Enrollment</p>
-              <p className="font-medium">{program.keyMetrics.totalEnrollment}</p>
+              <p className="font-medium">{program.keyMetrics?.totalEnrollment ?? 0}</p>
             </div>
           </div>
           <div className="flex items-center text-sm">
             <Target className="w-4 h-4 text-gray-500 mr-2" />
             <div>
               <p className="text-xs text-gray-500">Active Studies</p>
-              <p className="font-medium">{program.keyMetrics.activeStudies}</p>
+              <p className="font-medium">{program.keyMetrics?.activeStudies ?? 0}</p>
             </div>
           </div>
         </div>
