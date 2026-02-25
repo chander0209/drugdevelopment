@@ -16,15 +16,14 @@ This version has been fully optimized with database integration to efficiently h
 ## 🎯 Quick Start (5 Minutes)
 
 ### 1. Install Dependencies
+
 ```bash
 npm install
 ```
 
 ### 2. Setup Database
-```bash
-# Copy environment file
-cp .env.example .env
 
+```bash
 # Generate Prisma Client
 npm run db:generate
 
@@ -36,6 +35,7 @@ npm run db:seed
 ```
 
 ### 3. Start Server
+
 ```bash
 npm run dev
 ```
@@ -45,9 +45,11 @@ Open [http://localhost:3000](http://localhost:3000)
 ## 📚 Documentation
 
 **Start here:**
+
 - 📖 **[IMPLEMENTATION_GUIDE.md](./IMPLEMENTATION_GUIDE.md)** - How the app was modified and how to use it
 
 **Detailed guides:**
+
 - 🔧 **[OPTIMIZATION_README.md](./OPTIMIZATION_README.md)** - Full technical documentation
 - 🔄 **[MIGRATION_GUIDE.md](./MIGRATION_GUIDE.md)** - Migrating from mock data
 - ⚡ **[QUICK_REFERENCE.md](./QUICK_REFERENCE.md)** - Command cheat sheet
@@ -57,6 +59,7 @@ Open [http://localhost:3000](http://localhost:3000)
 ## 📊 Features
 
 ### Portfolio Management
+
 - 📊 Paginated program listing (20 per page)
 - 🔍 Real-time search (debounced for efficiency)
 - 🎯 Multi-select filters (phase, therapeutic area)
@@ -66,6 +69,7 @@ Open [http://localhost:3000](http://localhost:3000)
 - 🎯 Milestone timelines
 
 ### Performance Features
+
 - ⚡ Loads only 20 programs at a time
 - 🚀 Database indexes for fast queries
 - 💾 Persistent data storage
@@ -114,6 +118,7 @@ drug-portfolio-dashboard/
 ## 🎓 Key Concepts
 
 ### Database Schema
+
 ```
 Program (1) ────< Studies (N)
     │
@@ -123,6 +128,7 @@ Study (1) ──────< Milestones (N)
 ```
 
 ### API Endpoints
+
 ```
 GET  /api/programs           - List programs (paginated)
 GET  /api/programs/:id       - Get single program
@@ -130,15 +136,16 @@ PATCH /api/programs/:id      - Update program
 ```
 
 ### Pagination Example
+
 ```typescript
 // Frontend
 fetch('/api/programs?page=1&limit=20&search=cardio&phases=Phase I')
 
 // Backend uses database indexes for fast lookup
-SELECT * FROM Program 
-WHERE phase IN ('Phase I') 
+SELECT * FROM Program
+WHERE phase IN ('Phase I')
 AND name LIKE '%cardio%'
-ORDER BY lastUpdated DESC 
+ORDER BY lastUpdated DESC
 LIMIT 20 OFFSET 0;
 ```
 
@@ -163,7 +170,9 @@ npm run start            # Start production server
 ## 🔧 Customization
 
 ### Change Items Per Page
+
 In `app/page.tsx`:
+
 ```typescript
 const [pagination, setPagination] = useState({
   page: 1,
@@ -173,14 +182,19 @@ const [pagination, setPagination] = useState({
 ```
 
 ### Generate More Test Data
+
 In `prisma/seed.ts`:
+
 ```typescript
 const count = 1000; // Change from 100
 ```
+
 Then run: `npm run db:seed`
 
 ### Switch to PostgreSQL (Production)
+
 1. Update `prisma/schema.prisma`:
+
 ```prisma
 datasource db {
   provider = "postgresql"
@@ -189,6 +203,7 @@ datasource db {
 ```
 
 2. Update `.env`:
+
 ```
 DATABASE_URL="postgresql://user:password@host:5432/dbname"
 ```
@@ -197,13 +212,13 @@ DATABASE_URL="postgresql://user:password@host:5432/dbname"
 
 ## 📈 Performance Comparison
 
-| Metric | Before (Mock) | After (Database) |
-|--------|---------------|------------------|
-| Initial Load | All programs (5-50MB) | 20 programs (~50KB) |
-| Search Time | O(n) | O(log n) - 10-100x faster |
-| Memory Usage | All data in RAM | Only visible data |
-| Scalability | <100 programs | 10,000+ programs |
-| Edits | Not persistent | Saved to database ✅ |
+| Metric       | Before (Mock)         | After (Database)          |
+| ------------ | --------------------- | ------------------------- |
+| Initial Load | All programs (5-50MB) | 20 programs (~50KB)       |
+| Search Time  | O(n)                  | O(log n) - 10-100x faster |
+| Memory Usage | All data in RAM       | Only visible data         |
+| Scalability  | <100 programs         | 10,000+ programs          |
+| Edits        | Not persistent        | Saved to database ✅      |
 
 ## 🧪 Testing with Large Datasets
 
@@ -224,17 +239,18 @@ npm run db:seed
 
 ## 🐛 Troubleshooting
 
-| Issue | Solution |
-|-------|----------|
-| "Prisma Client not found" | `npm run db:generate` |
-| "Table doesn't exist" | `npm run db:push` |
-| "No programs showing" | `npm run db:seed` |
-| Database locked | Close Prisma Studio, restart |
-| TypeScript errors | `npm run db:generate` |
+| Issue                     | Solution                     |
+| ------------------------- | ---------------------------- |
+| "Prisma Client not found" | `npm run db:generate`        |
+| "Table doesn't exist"     | `npm run db:push`            |
+| "No programs showing"     | `npm run db:seed`            |
+| Database locked           | Close Prisma Studio, restart |
+| TypeScript errors         | `npm run db:generate`        |
 
 ## 🚀 Production Deployment
 
 ### Checklist
+
 - [ ] Switch to PostgreSQL: Update schema + DATABASE_URL
 - [ ] Run migrations: `npx prisma migrate deploy`
 - [ ] Set up database backups
@@ -244,6 +260,7 @@ npm run db:seed
 - [ ] Set up CI/CD pipeline
 
 ### Recommended Providers
+
 - **Hosting:** Vercel, Railway, Render
 - **Database:** Supabase, Railway, Neon, PlanetScale
 - **Caching:** Upstash Redis, Railway Redis
@@ -257,6 +274,7 @@ npm run db:seed
 ## 🤝 Contributing
 
 Contributions are welcome! Key areas for enhancement:
+
 - Add create/delete program functionality
 - Implement user authentication
 - Add data export (CSV/Excel)

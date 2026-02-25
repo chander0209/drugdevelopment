@@ -6,21 +6,18 @@
 # 1. Install dependencies
 npm install
 
-# 2. Setup environment
-cp .env.example .env
-
-# 3. Initialize database
+# 2. Initialize database
 npm run db:generate
 npm run db:push
 npm run db:seed
 
-# 4. Activate optimized pages
+# 3. Activate optimized pages
 mv app/page.tsx app/page-original.tsx
 mv app/page-optimized.tsx app/page.tsx
 mv app/programs/[id]/page.tsx app/programs/[id]/page-original.tsx
 mv app/programs/[id]/page-optimized.tsx app/programs/[id]/page.tsx
 
-# 5. Start development server
+# 4. Start development server
 npm run dev
 ```
 
@@ -97,12 +94,12 @@ drug-portfolio-dashboard/
 │   ├── prisma.ts                     # Prisma client singleton
 │   └── mockData.ts                   # Old mock data (for reference)
 ├── .env                              # Environment variables (git-ignored)
-└── .env.example                      # Example environment file
 ```
 
 ## 🌐 API Endpoints
 
 ### List Programs (Paginated)
+
 ```bash
 # Basic
 curl "http://localhost:3000/api/programs"
@@ -121,11 +118,13 @@ curl "http://localhost:3000/api/programs?page=1&limit=20&search=heart&phases=Pha
 ```
 
 ### Get Single Program
+
 ```bash
 curl "http://localhost:3000/api/programs/PRG001"
 ```
 
 ### Update Program
+
 ```bash
 curl -X PATCH "http://localhost:3000/api/programs/PRG001" \
   -H "Content-Type: application/json" \
@@ -150,6 +149,7 @@ datasource db {
 ```
 
 Then update `.env`:
+
 ```
 DATABASE_URL="postgresql://user:pass@host:5432/dbname"
 ```
@@ -157,10 +157,11 @@ DATABASE_URL="postgresql://user:pass@host:5432/dbname"
 ### Adjust Pagination Size
 
 Edit `app/page.tsx`:
+
 ```typescript
 const [pagination, setPagination] = useState({
   page: 1,
-  limit: 50,  // Change from 20
+  limit: 50, // Change from 20
   // ...
 });
 ```
@@ -168,6 +169,7 @@ const [pagination, setPagination] = useState({
 ### Generate More Test Data
 
 Edit `prisma/seed.ts`:
+
 ```typescript
 const count = 1000; // Change from 100
 ```
@@ -186,14 +188,14 @@ Then run: `npm run db:seed`
 
 ## 📊 Performance Metrics
 
-| Metric | Mock Data | Optimized |
-|--------|-----------|-----------|
-| Initial load | All programs | 20 programs |
-| Search time | O(n) | O(log n) |
-| Filter time | O(n) | O(log n) |
-| Memory usage | All data | Paginated |
-| Edits persist | ❌ No | ✅ Yes |
-| Scalability | <100 programs | 10,000+ programs |
+| Metric        | Mock Data     | Optimized        |
+| ------------- | ------------- | ---------------- |
+| Initial load  | All programs  | 20 programs      |
+| Search time   | O(n)          | O(log n)         |
+| Filter time   | O(n)          | O(log n)         |
+| Memory usage  | All data      | Paginated        |
+| Edits persist | ❌ No         | ✅ Yes           |
+| Scalability   | <100 programs | 10,000+ programs |
 
 ## 🔍 Database Schema Quick Reference
 
@@ -229,23 +231,25 @@ model Milestone {
 
 ## 🐛 Common Issues
 
-| Problem | Solution |
-|---------|----------|
-| "Prisma Client not found" | `npm run db:generate` |
-| "Table doesn't exist" | `npm run db:push` |
-| "No programs showing" | `npm run db:seed` |
-| TypeScript errors | `npm run db:generate` |
-| API 404 errors | Check file structure, restart server |
-| Database locked | Close Prisma Studio, restart |
+| Problem                   | Solution                             |
+| ------------------------- | ------------------------------------ |
+| "Prisma Client not found" | `npm run db:generate`                |
+| "Table doesn't exist"     | `npm run db:push`                    |
+| "No programs showing"     | `npm run db:seed`                    |
+| TypeScript errors         | `npm run db:generate`                |
+| API 404 errors            | Check file structure, restart server |
+| Database locked           | Close Prisma Studio, restart         |
 
 ## 💡 Pro Tips
 
 1. **Use Prisma Studio** for visual database management
+
    ```bash
    npm run db:studio
    ```
 
 2. **Test with 1000+ programs** to verify performance
+
    ```typescript
    // In prisma/seed.ts
    const count = 1000;

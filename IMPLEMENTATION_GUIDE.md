@@ -9,6 +9,7 @@ This document explains how your existing Next.js Drug Portfolio Dashboard has be
 ### 1. New Files Added
 
 #### Database Layer
+
 - **`prisma/schema.prisma`** - Database schema definition
   - Defines Program, Study, and Milestone models
   - Includes indexes for performance
@@ -25,6 +26,7 @@ This document explains how your existing Next.js Drug Portfolio Dashboard has be
   - Development logging enabled
 
 #### API Routes
+
 - **`app/api/programs/route.ts`** - List programs endpoint
   - `GET /api/programs` - Paginated program listing
   - Query params: `page`, `limit`, `search`, `phases`, `areas`
@@ -38,7 +40,9 @@ This document explains how your existing Next.js Drug Portfolio Dashboard has be
 ### 2. Modified Files
 
 #### Main Page (`app/page.tsx`)
+
 **Before:**
+
 ```typescript
 // Loaded all programs from mockData.ts
 import { mockPrograms } from '@/lib/mockData';
@@ -46,6 +50,7 @@ const filteredPrograms = mockPrograms.filter(...);
 ```
 
 **After:**
+
 ```typescript
 // Fetches programs from API with pagination
 const [programs, setPrograms] = useState<Program[]>([]);
@@ -57,6 +62,7 @@ const fetchPrograms = async (page: number) => {
 ```
 
 **Changes:**
+
 - ✅ Added state management for programs and pagination
 - ✅ Implemented `fetchPrograms()` function for API calls
 - ✅ Added debounced search (300ms delay)
@@ -65,24 +71,28 @@ const fetchPrograms = async (page: number) => {
 - ✅ Server-side filtering via API
 
 #### Program Detail Page (`app/programs/[id]/page.tsx`)
+
 **Before:**
+
 ```typescript
 // Found program in mockPrograms array
 const program = mockPrograms.find((p) => p.id === programId);
 ```
 
 **After:**
+
 ```typescript
 // Fetches from API
 const [program, setProgram] = useState<Program | null>(null);
 useEffect(() => {
   fetch(`/api/programs/${programId}`)
-    .then(res => res.json())
-    .then(data => setProgram(data));
+    .then((res) => res.json())
+    .then((data) => setProgram(data));
 }, [programId]);
 ```
 
 **Changes:**
+
 - ✅ Added async data fetching from API
 - ✅ Implemented save functionality that persists to database
 - ✅ Added loading and error states
@@ -90,7 +100,9 @@ useEffect(() => {
 - ✅ Optimistic UI updates
 
 #### Package.json (`package.json`)
+
 **Changes:**
+
 - ✅ Added `@prisma/client` dependency
 - ✅ Added `prisma` dev dependency
 - ✅ Added `tsx` for running TypeScript seed script
@@ -103,7 +115,7 @@ useEffect(() => {
 
 ### 3. Configuration Files
 
-- **`.env.example`** - Environment variable template
+- **`.env`** - Environment variable template
   - DATABASE_URL configuration
   - Examples for SQLite, PostgreSQL, MySQL
 
@@ -116,6 +128,7 @@ npm install
 ```
 
 This installs:
+
 - `@prisma/client` - Database client
 - `prisma` - Database toolkit
 - `tsx` - TypeScript executor
@@ -123,16 +136,17 @@ This installs:
 ### Step 2: Configure Environment (1 minute)
 
 ```bash
-# Copy environment template
-cp .env.example .env
+
 ```
 
 The default SQLite configuration works for development:
+
 ```
 DATABASE_URL="file:./dev.db"
 ```
 
 For production with PostgreSQL:
+
 ```
 DATABASE_URL="postgresql://user:password@host:5432/drug_portfolio"
 ```
@@ -215,6 +229,7 @@ Study (1) ──────< Milestones (N)
 ```
 
 **Indexes for Performance:**
+
 - `Program.therapeuticArea` - Fast filtering
 - `Program.phase` - Fast filtering
 - `Program.name` - Fast search
@@ -248,6 +263,7 @@ npm run db:studio
 ```
 
 Browse to http://localhost:5555 to see:
+
 - All programs
 - All studies
 - All milestones
@@ -258,16 +274,19 @@ Browse to http://localhost:5555 to see:
 ### Generate 1,000 Programs
 
 Edit `prisma/seed.ts`:
+
 ```typescript
 const count = 1000; // Change from 100
 ```
 
 Run:
+
 ```bash
 npm run db:seed
 ```
 
 Test performance:
+
 - Page load should be <500ms
 - Search should be <200ms
 - Pagination should be instant
@@ -279,12 +298,14 @@ const count = 10000; // In prisma/seed.ts
 ```
 
 Run:
+
 ```bash
 npm run db:seed
 # This will take a few minutes
 ```
 
 The app still performs well:
+
 - Database indexes keep queries fast
 - Pagination limits memory usage
 - Only 20 programs loaded at a time
@@ -292,6 +313,7 @@ The app still performs well:
 ## API Endpoints Reference
 
 ### List Programs
+
 ```
 GET /api/programs
 
@@ -316,6 +338,7 @@ Response:
 ```
 
 ### Get Program
+
 ```
 GET /api/programs/:id
 
@@ -331,6 +354,7 @@ Response:
 ```
 
 ### Update Program
+
 ```
 PATCH /api/programs/:id
 
@@ -348,27 +372,28 @@ Response: Updated program object
 
 ### Before (Mock Data)
 
-| Operation | Time | Memory | Scalability |
-|-----------|------|--------|-------------|
-| Load page | 2-5s | All data | Poor (<100 programs) |
-| Search | O(n) | All data | Slow with many programs |
-| Filter | O(n) | All data | Slow with many programs |
-| Edit | Instant | N/A | Not persistent |
+| Operation | Time    | Memory   | Scalability             |
+| --------- | ------- | -------- | ----------------------- |
+| Load page | 2-5s    | All data | Poor (<100 programs)    |
+| Search    | O(n)    | All data | Slow with many programs |
+| Filter    | O(n)    | All data | Slow with many programs |
+| Edit      | Instant | N/A      | Not persistent          |
 
 ### After (Database)
 
-| Operation | Time | Memory | Scalability |
-|-----------|------|--------|-------------|
-| Load page | <500ms | 20 programs | Excellent (10,000+) |
-| Search | <200ms | 20 programs | Fast with indexes |
-| Filter | <200ms | 20 programs | Fast with indexes |
-| Edit | <300ms | N/A | Persistent, efficient |
+| Operation | Time   | Memory      | Scalability           |
+| --------- | ------ | ----------- | --------------------- |
+| Load page | <500ms | 20 programs | Excellent (10,000+)   |
+| Search    | <200ms | 20 programs | Fast with indexes     |
+| Filter    | <200ms | 20 programs | Fast with indexes     |
+| Edit      | <300ms | N/A         | Persistent, efficient |
 
 ## Customization
 
 ### Change Items Per Page
 
 In `app/page.tsx`:
+
 ```typescript
 const [pagination, setPagination] = useState({
   page: 1,
@@ -380,6 +405,7 @@ const [pagination, setPagination] = useState({
 ### Add More Editable Fields
 
 1. Update API route (`app/api/programs/[id]/route.ts`):
+
 ```typescript
 const { description, indication, mechanism, projectLead } = body;
 
@@ -390,17 +416,18 @@ await prisma.program.update({
     indication,
     mechanism,
     projectLead, // New field
-    lastUpdated: new Date().toISOString().split('T')[0],
+    lastUpdated: new Date().toISOString().split("T")[0],
   },
 });
 ```
 
 2. Update frontend (`app/programs/[id]/page.tsx`):
-Add input field and handle change.
+   Add input field and handle change.
 
 ### Switch to PostgreSQL (Production)
 
 1. Update `prisma/schema.prisma`:
+
 ```prisma
 datasource db {
   provider = "postgresql"
@@ -409,11 +436,13 @@ datasource db {
 ```
 
 2. Update `.env`:
+
 ```
 DATABASE_URL="postgresql://user:password@host:5432/drug_portfolio"
 ```
 
 3. Run:
+
 ```bash
 npm run db:push
 npm run db:seed
@@ -422,24 +451,29 @@ npm run db:seed
 ## Troubleshooting
 
 ### "Prisma Client not found"
+
 ```bash
 npm run db:generate
 ```
 
 ### "Table doesn't exist"
+
 ```bash
 npm run db:push
 ```
 
 ### "No programs showing"
+
 ```bash
 npm run db:seed
 ```
 
 ### Database locked
+
 Close Prisma Studio and restart dev server.
 
 ### TypeScript errors after changes
+
 ```bash
 npm run db:generate
 ```
@@ -472,13 +506,13 @@ your-app/
 ├── components/                    [UNCHANGED] All components work as before
 ├── types/                         [UNCHANGED]
 ├── .env                           [NEW] Your configuration
-├── .env.example                   [NEW] Template
 └── package.json                   [MODIFIED] Added Prisma scripts
 ```
 
 ## Next Steps
 
 ### Immediate
+
 - [x] Database integrated
 - [x] API routes created
 - [x] Frontend updated
@@ -486,6 +520,7 @@ your-app/
 - [x] Edit functionality working
 
 ### Recommended
+
 - [ ] Add authentication (NextAuth.js)
 - [ ] Add create/delete program functionality
 - [ ] Add role-based access control
@@ -495,6 +530,7 @@ your-app/
 - [ ] Add data visualization
 
 ### Production
+
 - [ ] Switch to PostgreSQL
 - [ ] Set up database backups
 - [ ] Add monitoring (Sentry)
@@ -535,6 +571,7 @@ npm run start            # Start production server
 ---
 
 **Questions?** Check the other documentation files:
+
 - `OPTIMIZATION_README.md` - Detailed technical docs
 - `MIGRATION_GUIDE.md` - Step-by-step migration
 - `QUICK_REFERENCE.md` - Command cheat sheet
