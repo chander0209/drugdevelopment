@@ -326,15 +326,12 @@ Persistence: Saved to database ✅
 # 1. Install new dependencies
 npm install
 
-# 2. Setup environment
-cp .env.example .env
-
-# 3. Initialize database
+# 2. Initialize database
 npm run db:generate    # Generate Prisma Client
 npm run db:push        # Create tables
 npm run db:seed        # Add 100 test programs
 
-# 4. Start app
+# 3. Start app
 npm run dev
 ```
 
